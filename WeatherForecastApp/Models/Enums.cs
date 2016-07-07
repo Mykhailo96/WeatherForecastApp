@@ -8,9 +8,9 @@ namespace WeatherForecastApp.Models
     public enum EnumCity
     {
         Lviv,
-        Kyiv,
+        Kiev,
         Kharkiv,
-        Dnipro,
+        Dnipropetrovsk,
         Odessa
     }
 }
