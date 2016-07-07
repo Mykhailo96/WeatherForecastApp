@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WeatherForecastApp.Models;
 
 namespace WeatherForecastApp.Controllers
 {
@@ -10,7 +11,9 @@ namespace WeatherForecastApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            WeatherApi api = new WeatherApi();
+
+            return View(api.getForecast());
         }
     }
 }
