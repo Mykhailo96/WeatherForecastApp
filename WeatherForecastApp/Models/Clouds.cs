@@ -7,6 +7,6 @@ namespace WeatherForecastApp.Models
 {
     public class Clouds
     {
-        public int all { get; set; }
+        public int All { get; set; }
     }
 }

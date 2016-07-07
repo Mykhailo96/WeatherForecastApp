@@ -7,6 +7,6 @@ namespace WeatherForecastApp.Models
 {
     public class Sys2
     {
-        public string pod { get; set; }
+        public string Pod { get; set; }
     }
 }

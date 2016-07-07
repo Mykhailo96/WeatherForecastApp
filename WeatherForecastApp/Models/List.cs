@@ -7,13 +7,13 @@ namespace WeatherForecastApp.Models
 {
     public class List
     {
-        public int dt { get; set; }
-        public Main main { get; set; }
-        public List<Weather> weather { get; set; }
-        public Clouds clouds { get; set; }
-        public Wind wind { get; set; }
-        public Rain rain { get; set; }
-        public Sys2 sys { get; set; }
-        public string dt_txt { get; set; }
+        public int Dt { get; set; }
+        public Main Main { get; set; }
+        public List<Weather> Weather { get; set; }
+        public Clouds Clouds { get; set; }
+        public Wind Wind { get; set; }
+        public Rain Rain { get; set; }
+        public Sys2 Sys { get; set; }
+        public string Dt_txt { get; set; }
     }
 }

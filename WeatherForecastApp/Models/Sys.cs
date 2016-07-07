@@ -7,6 +7,6 @@ namespace WeatherForecastApp.Models
 {
     public class Sys
     {
-        public int population { get; set; }
+        public int Population { get; set; }
     }
 }
