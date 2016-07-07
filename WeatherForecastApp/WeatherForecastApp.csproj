@@ -126,6 +126,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Clouds.cs" />
     <Compile Include="Models\Coord.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\List.cs" />
     <Compile Include="Models\Main.cs" />

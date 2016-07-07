@@ -10,7 +10,7 @@ namespace WeatherForecastApp.Models
 {
     public class WeatherApi
     {
-        private string url = "http://api.openweathermap.org/data/2.5/forecast?q=Lviv&APPID=d094d016c8b69124c4adb2f68b04f5b3&units=metric";
+        private string url = "http://api.openweathermap.org/data/2.5/forecast?APPID=d094d016c8b69124c4adb2f68b04f5b3&units=metric&q=Lviv";
         private JsonSerializerSettings settings;
 
         public WeatherApi()
