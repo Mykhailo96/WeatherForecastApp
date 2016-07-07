@@ -1,0 +1,33 @@
+﻿@model WeatherForecastApp.ViewModels.CityViewModel
+
+@{
+    ViewBag.Title = "City";
+}
+
+<h2>City</h2>
+
+@using (Html.BeginForm("Index", "Home"))
+{
+    @Html.AntiForgeryToken()
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NameFromEnum)
+            @Html.EnumDropDownListFor(model => model.NameFromEnum, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NameFromEnum, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CityName)
+            @Html.EditorFor(model => model.CityName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CityName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> Choose my name
+            </label>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Find</button>
+}

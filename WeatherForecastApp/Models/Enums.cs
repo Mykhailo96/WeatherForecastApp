@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WeatherForecastApp.Models
 {
-    enum EnumCity
+    public enum EnumCity
     {
         Lviv,
         Kyiv,

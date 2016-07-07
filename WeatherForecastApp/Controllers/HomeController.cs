@@ -9,6 +9,11 @@ namespace WeatherForecastApp.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult City()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             WeatherApi api = new WeatherApi();
