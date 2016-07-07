@@ -4,7 +4,7 @@
 }
 
 <div>
-    <p id="piopio">@Model.City.Name</p>
+    <p id="piopio">@Model.List[0].Dt_txt</p>
 </div>
 
 <div>
@@ -16,7 +16,17 @@
     </ul>
 
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="today">aaaa</div>
+        <div role="tabpanel" class="tab-pane active" id="today">
+            <ul>
+                @foreach (var w in Model.List)
+                {
+                    if (w.Dt_txt.Contains(DateTime.Now.ToString("yyyy-MM-dd")))
+                    {
+                        <li>@w.Main.Temp</li>
+                    }
+                }
+            </ul>
+        </div>
         <div role="tabpanel" class="tab-pane" id="three">ssss</div>
         <div role="tabpanel" class="tab-pane" id="seven">ffff</div>
     </div>
