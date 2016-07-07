@@ -17,9 +17,18 @@ namespace WeatherForecastApp.Controllers
 
         public ActionResult Index(CityViewModel city)
         {
+            string str;
+            if(city.CityName == null)
+            {
+                str = Enum.GetName(typeof(EnumCity), city.NameFromEnum);
+            }
+            else
+            {
+                str = city.CityName;
+            }
             WeatherApi api = new WeatherApi();
 
-            return View(api.getForecast());
+            return View(api.getForecast(str));
         }
     }
 }
