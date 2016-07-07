@@ -9,10 +9,10 @@ namespace WeatherForecastApp.ViewModels
 {
     public class CityViewModel
     {
-        //[Display(Name = )]
+        [Display(Name = "Find your city")]
         public EnumCity NameFromEnum { get; set; }
 
-        //[Display(Name = "")]
+        [Display(Name = "Enter city")]
         public string CityName { get; set; }
     }
 }

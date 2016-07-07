@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WeatherForecastApp.Models;
+using WeatherForecastApp.ViewModels;
 
 namespace WeatherForecastApp.Controllers
 {
@@ -14,7 +15,7 @@ namespace WeatherForecastApp.Controllers
             return View();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(CityViewModel city)
         {
             WeatherApi api = new WeatherApi();
 
