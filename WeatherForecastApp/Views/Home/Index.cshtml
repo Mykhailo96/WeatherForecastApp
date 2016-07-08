@@ -62,11 +62,27 @@
     {
         if (forecast.Dt_txt.Contains("00:00:00") || forecast.Dt_txt.Contains("03:00:00"))
         {
-            return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-3x owf-pull-left owf-border'></i><strong>" + forecast.Dt_txt.Remove(0,11).Remove(5, 3) + "</strong><br>Temp 25°C Clear(Sky is Clear)<br>Min 22°C Max 26°C</div>");
+            return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-4x owf-pull-left owf-border'></i><strong>" +
+                forecast.Dt_txt.Remove(0,11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
+                "°C<br>Humidity " + forecast.Main.Humidity +
+                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
+                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
+                "</div>");
         }
         else
         {
-            return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-3x owf-pull-left owf-border'></i><strong>" + forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp 25°C Clear(Sky is Clear)<br>Min 22°C Max 26°C</div>");
+            return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-4x owf-pull-left owf-border'></i><strong>" +
+                forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
+                "°C<br>Humidity " + forecast.Main.Humidity +
+                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
+                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
+                "</div>");
         }
+    }
+
+    public static string DegreesToCardinal(double degrees)
+    {
+        string[] caridnals = { "N", "NE", "E", "SE", "S", "SW", "W", "NW", "N" };
+        return caridnals[(int)Math.Round(((double)degrees % 360) / 45)];
     }
 }
