@@ -25,6 +25,7 @@ namespace WeatherForecastApp
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/owfont-regular.css",
                       "~/Content/site.css"));
         }
     }

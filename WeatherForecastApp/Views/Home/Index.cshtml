@@ -1,31 +1,124 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model WeatherForecastApp.Models.Forecast
+@{
+    ViewBag.Title = "Weather Forecast";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div>
+    <h2>@Model.City.Name</h2>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today</a></li>
+        <li role="presentation"><a href="#three" aria-controls="three" role="tab" data-toggle="tab">3 days</a></li>
+        <li role="presentation"><a href="#five" aria-controls="five" role="tab" data-toggle="tab">5 days</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="today">
+
+            @{
+                int i = 0;
+                var w = Model.List[i];
+
+
+                while (w.Dt_txt.Contains(DateTime.Now.ToString("yyyy-MM-dd")))
+                {
+                    @Html.Raw(@DayOrNight(w));
+                    w = Model.List[++i];
+                }
+
+            }
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="three">
+            <div class="conteiner">
+                <div class="row">
+                    @ToColumns(Model.List, 3);
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="five">
+            <div class="conteiner">
+                <div class="row">
+                    @ToColumns(Model.List, 5);
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+
 </div>
+
+@functions
+{
+    public string DayOrNight(WeatherForecastApp.Models.List forecast)
+    {
+        if (forecast.Dt_txt.Contains("00:00:00") || forecast.Dt_txt.Contains("03:00:00"))
+        {
+            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-4x owf-pull-left owf-border'></i><strong>" +
+                forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
+                "°C<br>Humidity " + forecast.Main.Humidity +
+                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
+                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
+                "</div>";
+        }
+        else
+        {
+            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-4x owf-pull-left owf-border'></i><strong>" +
+                forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
+                "°C<br>Humidity " + forecast.Main.Humidity +
+                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
+                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
+                "</div>";
+        }
+    }
+
+    public static string DegreesToCardinal(double degrees)
+    {
+        string[] caridnals = { "N", "NE", "E", "SE", "S", "SW", "W", "NW", "N" };
+        return caridnals[(int)Math.Round(((double)degrees % 360) / 45)];
+    }
+
+    public IHtmlString ToColumns(List<WeatherForecastApp.Models.List> list, int i)
+    {
+        var day = DateTime.Now;
+        string str = "<div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>";
+        int k = 0;
+        WeatherForecastApp.Models.List forecast;
+
+        do
+        {
+            forecast = list[k];
+            if (forecast.Dt_txt.Contains(DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")))
+            {
+                break;
+            }
+            if (forecast.Dt_txt.Contains(day.ToString("yyyy-MM-dd")))
+            {
+                str += DayOrNight(forecast);
+            }
+            else
+            {
+                if (!(forecast == list[list.Count - 1]))
+                {
+                    day = day.AddDays(1);
+                    str += "</div><div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>" + DayOrNight(forecast);
+                }
+                else
+                {
+                    str += DayOrNight(forecast);
+                }
+            }
+
+            k++;
+
+        } while (k < list.Count);
+
+        str += "</div>";
+
+        return Html.Raw(str);
+    }
+}
