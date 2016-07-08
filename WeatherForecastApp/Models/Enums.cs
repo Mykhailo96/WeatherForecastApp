@@ -7,6 +7,7 @@ namespace WeatherForecastApp.Models
 {
     public enum EnumCity
     {
+        Select,
         Lviv,
         Kiev,
         Kharkiv,

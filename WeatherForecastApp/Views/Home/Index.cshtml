@@ -4,7 +4,7 @@
 }
 
 <div>
-    <p id="piopio">@Model.List[0].Dt_txt</p>
+    <p id="piopio">@Model.City.Name</p>
 </div>
 
 <div>
@@ -12,7 +12,7 @@
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today</a></li>
         <li role="presentation"><a href="#three" aria-controls="three" role="tab" data-toggle="tab">3 days</a></li>
-        <li role="presentation"><a href="#seven" aria-controls="seven" role="tab" data-toggle="tab">7 days</a></li>
+        <li role="presentation"><a href="#five" aria-controls="five" role="tab" data-toggle="tab">5 days</a></li>
     </ul>
 
     <div class="tab-content">
@@ -27,8 +27,31 @@
                 }
             </ul>
         </div>
-        <div role="tabpanel" class="tab-pane" id="three">ssss</div>
-        <div role="tabpanel" class="tab-pane" id="seven">ffff</div>
+
+        <div role="tabpanel" class="tab-pane" id="three">
+            <ul>
+                @{
+                    int i = 0;
+                    var f3 = Model.List[i];
+                    while (!f3.Dt_txt.Contains(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")) && i < Model.List.Count - 2)
+                    {
+                        <li>@f3.Main.Temp : @f3.Dt_txt</li>
+                        f3 = Model.List[++i];
+                    }
+                }
+            </ul>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="five">
+            <ul>
+                @{
+                    foreach (var f5 in Model.List)
+                    {
+                        <li>@f5.Main.Temp : @f5.Dt_txt</li>
+                    }
+                }
+            </ul>
+        </div>
     </div>
 
 </div>

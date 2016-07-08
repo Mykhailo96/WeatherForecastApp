@@ -17,6 +17,9 @@ namespace WeatherForecastApp.Controllers
 
         public ActionResult Index(CityViewModel city)
         {
+            if (!ModelState.IsValid || city.NameFromEnum == EnumCity.Select && city.CityName == null)
+                return View("City", city);
+
             string str;
             if(city.CityName == null)
             {
