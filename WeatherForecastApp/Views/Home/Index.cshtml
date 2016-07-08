@@ -85,7 +85,7 @@
     public IHtmlString ToColumns(List<WeatherForecastApp.Models.List> list, int i)
     {
         var day = DateTime.Now;
-        string str = "<div class='col-md-4'>";
+        string str = "<div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>";
         int k = 0;
         WeatherForecastApp.Models.List forecast;
 
@@ -104,8 +104,8 @@
             {
                 if (!(forecast == list[list.Count - 1]))
                 {
-                    str += "</div><div class='col-md-4'>" + DayOrNight(forecast);
                     day = day.AddDays(1);
+                    str += "</div><div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>" + DayOrNight(forecast);
                 }
                 else
                 {

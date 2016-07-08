@@ -142,6 +142,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img.jpg" />
     <Content Include="Content\owfont-regular.css" />
     <Content Include="Content\owfont-regular.min.css" />
     <Content Include="favicon.ico" />
