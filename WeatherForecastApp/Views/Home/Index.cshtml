@@ -17,41 +17,55 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="today">
-            <ul>
-                @foreach (var w in Model.List)
+            @{
+                int i = 0;
+                var w = Model.List[i];
+
+
+                while (w.Dt_txt.Contains(DateTime.Now.ToString("yyyy-MM-dd")))
                 {
-                    if (w.Dt_txt.Contains(DateTime.Now.ToString("yyyy-MM-dd")))
-                    {
-                        <li>@w.Main.Temp : @w.Dt_txt</li>
-                    }
+                    @DayOrNight(w);
+                    w = Model.List[++i];
                 }
-            </ul>
+
+            }
         </div>
 
         <div role="tabpanel" class="tab-pane" id="three">
-            <ul>
-                @{
-                    int i = 0;
-                    var f3 = Model.List[i];
-                    while (!f3.Dt_txt.Contains(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")) && i < Model.List.Count - 2)
-                    {
-                        <li>@f3.Main.Temp : @f3.Dt_txt</li>
-                        f3 = Model.List[++i];
-                    }
+            @{
+                i = 0;
+                var f3 = Model.List[i];
+                while (!f3.Dt_txt.Contains(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")) && i < Model.List.Count - 2)
+                {
+                    @DayOrNight(f3);
+                    f3 = Model.List[++i];
                 }
-            </ul>
+            }
         </div>
 
         <div role="tabpanel" class="tab-pane" id="five">
-            <ul>
-                @{
-                    foreach (var f5 in Model.List)
-                    {
-                        <li>@f5.Main.Temp : @f5.Dt_txt</li>
-                    }
+            @{
+                foreach (var f5 in Model.List)
+                {
+                    @DayOrNight(f5);
                 }
-            </ul>
+            }
         </div>
     </div>
 
 </div>
+
+@functions
+{
+    public IHtmlString DayOrNight(WeatherForecastApp.Models.List forecast)
+    {
+        if (forecast.Dt_txt.Contains("00:00:00") || forecast.Dt_txt.Contains("03:00:00"))
+        {
+            return Html.Raw("<li><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-2x'></i>" + forecast.Main.Temp + " : " + forecast.Dt_txt + "</li>");
+        }
+        else
+        {
+            return Html.Raw("<li><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-2x'></i>" + forecast.Main.Temp + " : " + forecast.Dt_txt + "</li>");
+        }
+    }
+}
