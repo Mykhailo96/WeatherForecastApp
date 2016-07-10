@@ -29,7 +29,7 @@ namespace WeatherForecastApp.Controllers
             {
                 str = city.CityName;
             }
-            WeatherApi api = new WeatherApi();
+            IWebApi api = new WeatherApi();
 
             return View(api.getForecast(str));
         }
