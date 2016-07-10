@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherForecastApp.Models
 {
-    interface IWebApi
+    public interface IWebApi
     {
         Forecast getForecast(string name);
     }
