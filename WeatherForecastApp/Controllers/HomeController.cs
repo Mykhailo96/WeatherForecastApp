@@ -10,6 +10,13 @@ namespace WeatherForecastApp.Controllers
 {
     public class HomeController : Controller
     {
+        private IWebApi api;
+
+        public HomeController(IWebApi webApi)
+        {
+            api = webApi;
+        }
+
         public ActionResult City()
         {
             return View();
@@ -29,7 +36,6 @@ namespace WeatherForecastApp.Controllers
             {
                 str = city.CityName;
             }
-            WeatherApi api = new WeatherApi();
 
             return View(api.getForecast(str));
         }
