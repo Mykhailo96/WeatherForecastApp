@@ -18,12 +18,12 @@ namespace WeatherForecastApp.Models
 
     public enum EnumDays
     {
-        Today,
+        Today = 0,
 
         [Display(Name = "Three days")]
-        ThreeDays,
+        ThreeDays = 2,
 
         [Display(Name = "Five days")]
-        FiveDays
+        FiveDays = 4
     }
 }

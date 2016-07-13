@@ -8,6 +8,6 @@ namespace WeatherForecastApp.Models
 {
     public interface IWebApi
     {
-        Forecast getForecast(string name);
+        Forecast getForecast(string name, int days);
     }
 }

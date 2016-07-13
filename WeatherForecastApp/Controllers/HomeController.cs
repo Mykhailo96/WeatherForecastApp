@@ -37,7 +37,8 @@ namespace WeatherForecastApp.Controllers
                 str = city.CityName;
             }
 
-            return View(api.getForecast(str));
+            ViewBag.Days = (int)city.DaysAmount + 1;
+            return View(api.getForecast(str, (int)city.DaysAmount));
         }
     }
 }
