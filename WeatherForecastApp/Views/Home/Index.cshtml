@@ -8,109 +8,32 @@
 </div>
 
 <div>
-
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today</a></li>
-        <li role="presentation"><a href="#three" aria-controls="three" role="tab" data-toggle="tab">3 days</a></li>
-        <li role="presentation"><a href="#five" aria-controls="five" role="tab" data-toggle="tab">5 days</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="today">
-            <div class="conteiner">
-                <div class="row">
-                    @ToColumns(Model.List, 1, 4);
-                </div>
-            </div>
+    <div class="conteiner">
+        <div class="row">
+            @foreach (var item in Model.List)
+            {
+                @DailyWeather(item);
+            }
         </div>
-
-        <div role="tabpanel" class="tab-pane" id="three">
-            <div class="conteiner">
-                <div class="row">
-                    @ToColumns(Model.List, 3, 4);
-                </div>
-            </div>
-        </div>
-
-        <div role="tabpanel" class="tab-pane" id="five">
-            <div class="conteiner">
-                <div class="row">
-                    @ToColumns(Model.List, 5, 2);
-                </div>
-            </div>
-        </div>
-
     </div>
-
 </div>
 
 @functions
 {
-    public string DayOrNight(WeatherForecastApp.Models.List forecast)
+    public IHtmlString DailyWeather(WeatherForecastApp.Models.List forecast)
     {
-        if (forecast.Dt_txt.Contains("00:00:00") || forecast.Dt_txt.Contains("03:00:00"))
-        {
-            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-5x owf-pull-left owf-border'></i><strong>" +
-                forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
-                "°C<br>Humidity " + forecast.Main.Humidity +
-                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
-                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
-                "</div>";
-        }
-        else
-        {
-            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-5x owf-pull-left owf-border'></i><strong>" +
-                forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
-                "°C<br>Humidity " + forecast.Main.Humidity +
-                "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
-                "<br>Wind " + DegreesToCardinal(forecast.Wind.Deg) + " " + forecast.Wind.Speed + " m/s " +
-                "</div>";
-        }
+        return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-5x owf-pull-left owf-border'></i>" +
+            "<br>Day " + Math.Round(forecast.Temp.Day) +
+            "°C<br>Night " + Math.Round(forecast.Temp.Night) +
+            "°C<br>Humidity " + forecast.Humidity +
+            "%<br>Pressure " + Math.Round(forecast.Pressure) + " Bar" +
+            "<br>Wind " + DegreesToCardinal(forecast.Deg) + " " + forecast.Speed + " m/s " +
+            "</div>");
     }
 
     public static string DegreesToCardinal(double degrees)
     {
         string[] caridnals = { "N", "NE", "E", "SE", "S", "SW", "W", "NW", "N" };
         return caridnals[(int)Math.Round(((double)degrees % 360) / 45)];
-    }
-
-    public IHtmlString ToColumns(List<WeatherForecastApp.Models.List> list, int i, int j)
-    {
-        var day = DateTime.Now;
-        string str = "<div class='col-md-" + j + "'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>";
-        int k = 0;
-        WeatherForecastApp.Models.List forecast;
-
-        do
-        {
-            forecast = list[k];
-            if (forecast.Dt_txt.Contains(DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")))
-            {
-                break;
-            }
-            if (forecast.Dt_txt.Contains(day.ToString("yyyy-MM-dd")))
-            {
-                str += DayOrNight(forecast);
-            }
-            else
-            {
-                if (!(forecast == list[list.Count - 1]))
-                {
-                    day = day.AddDays(1);
-                    str += "</div><div class='col-md-" + j + "'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>" + DayOrNight(forecast);
-                }
-                else
-                {
-                    str += DayOrNight(forecast);
-                }
-            }
-
-            k++;
-
-        } while (k < list.Count);
-
-        str += "</div>";
-
-        return Html.Raw(str);
     }
 }

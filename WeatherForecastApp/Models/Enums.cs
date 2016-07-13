@@ -23,7 +23,7 @@ namespace WeatherForecastApp.Models
         [Display(Name = "Three days")]
         ThreeDays = 2,
 
-        [Display(Name = "Five days")]
-        FiveDays = 4
+        [Display(Name = "Week")]
+        SevenDays = 6
     }
 }

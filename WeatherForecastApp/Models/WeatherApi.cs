@@ -10,7 +10,7 @@ namespace WeatherForecastApp.Models
 {
     public class WeatherApi : IWebApi
     {
-        private string url = "http://api.openweathermap.org/data/2.5/forecast?APPID=d094d016c8b69124c4adb2f68b04f5b3&units=metric&q=";
+        private string url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d094d016c8b69124c4adb2f68b04f5b3&units=metric&q=";
         private JsonSerializerSettings settings;
 
         public WeatherApi()
@@ -28,7 +28,7 @@ namespace WeatherForecastApp.Models
 
                     try
                     {
-                        json_data = client.DownloadString(url + name);
+                        json_data = client.DownloadString(url + name + "&cnt=" + days);
                     }
                     catch (Exception) { }
 
