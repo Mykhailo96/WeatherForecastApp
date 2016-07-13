@@ -8,12 +8,13 @@ namespace WeatherForecastApp.Models
     public class List
     {
         public int Dt { get; set; }
-        public Main Main { get; set; }
+        public Temp Temp { get; set; }
+        public double Pressure { get; set; }
+        public int Humidity { get; set; }
         public List<Weather> Weather { get; set; }
-        public Clouds Clouds { get; set; }
-        public Wind Wind { get; set; }
-        public Rain Rain { get; set; }
-        public Sys2 Sys { get; set; }
-        public string Dt_txt { get; set; }
+        public double Speed { get; set; }
+        public int Deg { get; set; }
+        public int Clouds { get; set; }
+        public double Rain { get; set; }
     }
 }
