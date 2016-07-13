@@ -10,9 +10,13 @@
 <div>
     <div class="conteiner">
         <div class="row">
-            @foreach (var item in Model.List)
-            {
-                @DailyWeather(item);
+            @{
+                int dt = 0;
+                foreach (var item in Model.List)
+                {
+                    <h4>@DateTime.Now.AddDays(dt).DayOfWeek, @DateTime.Now.AddDays(dt++).Day</h4>
+                    @DailyWeather(item);
+                }
             }
         </div>
     </div>
@@ -51,7 +55,7 @@ else
 {
     public IHtmlString DailyWeather(WeatherForecastApp.Models.List forecast)
     {
-        return Html.Raw("<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-5x owf-pull-left owf-border'></i>" +
+        return Html.Raw("<div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-5x owf-pull-left owf-border'></i>" +
             "<br>Day " + Math.Round(forecast.Temp.Day) +
             "°C<br>Night " + Math.Round(forecast.Temp.Night) +
             "°C<br>Humidity " + forecast.Humidity +
