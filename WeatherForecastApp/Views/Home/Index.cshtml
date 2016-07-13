@@ -17,19 +17,11 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="today">
-
-            @{
-                int i = 0;
-                var w = Model.List[i];
-
-
-                while (w.Dt_txt.Contains(DateTime.Now.ToString("yyyy-MM-dd")))
-                {
-                    @Html.Raw(@DayOrNight(w));
-                    w = Model.List[++i];
-                }
-
-            }
+            <div class="conteiner">
+                <div class="row">
+                    @ToColumns(Model.List, 1, 4);
+                </div>
+            </div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="three">
