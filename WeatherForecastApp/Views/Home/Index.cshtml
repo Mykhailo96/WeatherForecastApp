@@ -17,6 +17,35 @@
         </div>
     </div>
 </div>
+<br />
+
+@if (Model.List.Count == 1)
+{
+    @Html.ActionLink("Today", "Redirect", new { name = ViewBag.Name, days = 1 }, new { @class = "btn btn-primary", disabled = "disabled" })
+}
+else
+{
+    @Html.ActionLink("Today", "Redirect", new { name = ViewBag.Name, days = 1 }, new { @class = "btn btn-primary" })
+}
+
+@if (Model.List.Count == 3)
+{
+    @Html.ActionLink("3 days", "Redirect", new { name = ViewBag.Name, days = 3 }, new { @class = "btn btn-primary", disabled = "disabled" })
+}
+else
+{
+    @Html.ActionLink("3 days", "Redirect", new { name = ViewBag.Name, days = 3 }, new { @class = "btn btn-primary" })
+}
+
+@if (Model.List.Count == 7)
+{
+    @Html.ActionLink("Week", "Redirect", new { name = ViewBag.Name, days = 7 }, new { @class = "btn btn-primary", disabled = "disabled" })
+}
+else
+{
+    @Html.ActionLink("Week", "Redirect", new { name = ViewBag.Name, days = 7 }, new { @class = "btn btn-primary" })
+}
+
 
 @functions
 {

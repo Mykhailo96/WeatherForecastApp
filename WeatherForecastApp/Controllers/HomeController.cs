@@ -27,17 +27,26 @@ namespace WeatherForecastApp.Controllers
             if (!ModelState.IsValid || city.NameFromEnum == EnumCity.Select && city.CityName == null)
                 return View("City", city);
 
-            string str;
+            string name;
             if(city.CityName == null)
             {
-                str = Enum.GetName(typeof(EnumCity), city.NameFromEnum);
+                name = Enum.GetName(typeof(EnumCity), city.NameFromEnum);
             }
             else
             {
-                str = city.CityName;
+                name = city.CityName;
             }
 
-            return View(api.getForecast(str, (int)city.DaysAmount + 1));
+            ViewBag.Name = name;
+
+            return View(api.getForecast(name, (int)city.DaysAmount + 1));
+        }
+
+        public ActionResult Redirect(string name, int days)
+        {
+            ViewBag.Name = name;
+
+            return View("Index", api.getForecast(name, days));
         }
     }
 }
