@@ -35,7 +35,7 @@
         <div role="tabpanel" class="tab-pane" id="three">
             <div class="conteiner">
                 <div class="row">
-                    @ToColumns(Model.List, 3);
+                    @ToColumns(Model.List, 3, 4);
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div role="tabpanel" class="tab-pane" id="five">
             <div class="conteiner">
                 <div class="row">
-                    @ToColumns(Model.List, 5);
+                    @ToColumns(Model.List, 5, 2);
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
     {
         if (forecast.Dt_txt.Contains("00:00:00") || forecast.Dt_txt.Contains("03:00:00"))
         {
-            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-4x owf-pull-left owf-border'></i><strong>" +
+            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-n owf-5x owf-pull-left owf-border'></i><strong>" +
                 forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
                 "°C<br>Humidity " + forecast.Main.Humidity +
                 "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
@@ -67,7 +67,7 @@
         }
         else
         {
-            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-4x owf-pull-left owf-border'></i><strong>" +
+            return "<br><div class='container'><i class='owf owf-" + forecast.Weather[0].Id + "-d owf-5x owf-pull-left owf-border'></i><strong>" +
                 forecast.Dt_txt.Remove(0, 11).Remove(5, 3) + "</strong><br>Temp " + Math.Round(forecast.Main.Temp) +
                 "°C<br>Humidity " + forecast.Main.Humidity +
                 "%<br>Pressure " + Math.Round(forecast.Main.Pressure) + " Bar" +
@@ -82,10 +82,10 @@
         return caridnals[(int)Math.Round(((double)degrees % 360) / 45)];
     }
 
-    public IHtmlString ToColumns(List<WeatherForecastApp.Models.List> list, int i)
+    public IHtmlString ToColumns(List<WeatherForecastApp.Models.List> list, int i, int j)
     {
         var day = DateTime.Now;
-        string str = "<div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>";
+        string str = "<div class='col-md-" + j + "'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>";
         int k = 0;
         WeatherForecastApp.Models.List forecast;
 
@@ -105,7 +105,7 @@
                 if (!(forecast == list[list.Count - 1]))
                 {
                     day = day.AddDays(1);
-                    str += "</div><div class='col-md-4'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>" + DayOrNight(forecast);
+                    str += "</div><div class='col-md-" + j + "'><h3>" + day.Day + " " + day.DayOfWeek + "</h3>" + DayOrNight(forecast);
                 }
                 else
                 {
