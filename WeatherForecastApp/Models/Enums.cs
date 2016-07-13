@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,5 +14,16 @@ namespace WeatherForecastApp.Models
         Kharkiv,
         Dnipropetrovsk,
         Odessa
+    }
+
+    public enum EnumDays
+    {
+        Today,
+
+        [Display(Name = "ThreeDays days")]
+        ThreeDays,
+
+        [Display(Name = "Five days")]
+        FiveDays
     }
 }
