@@ -19,9 +19,10 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.DaysAmount)
-        @Html.EnumDropDownListFor(model => model.DaysAmount, new { htmlAttributes = new { @class = "form-control", id = "enumId" } })
-        @Html.ValidationMessageFor(model => model.DaysAmount, "", new { @class = "text-danger" })
+        @Html.LabelFor(m => m.DaysId)
+        @Html.DropDownListFor(m => m.DaysId, new SelectList(ViewBag.Days, "Id", "Name"), "",
+                            htmlAttributes: new { type = "date", @class = "form-control", required = "true" })
+        @Html.ValidationMessageFor(m => m.DaysId, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">

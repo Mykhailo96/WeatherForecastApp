@@ -10,6 +10,8 @@ namespace WeatherForecastApp.Models
     {
         public DbSet<CityByDefault> CityByDefaults { get; set; }
 
+        public DbSet<Days> Days { get; set; }
+
         public ApplicationDbContext() : base("WeatherForecastApp")
         {
         }

@@ -157,12 +157,24 @@
     <Compile Include="Migrations\201607141647178_PopulateCityByDefaults.Designer.cs">
       <DependentUpon>201607141647178_PopulateCityByDefaults.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607141746211_AddDaysTable.cs" />
+    <Compile Include="Migrations\201607141746211_AddDaysTable.Designer.cs">
+      <DependentUpon>201607141746211_AddDaysTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607141748014_PopulateDaysTable.cs" />
+    <Compile Include="Migrations\201607141748014_PopulateDaysTable.Designer.cs">
+      <DependentUpon>201607141748014_PopulateDaysTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607141821512_AddNumberForDays.cs" />
+    <Compile Include="Migrations\201607141821512_AddNumberForDays.Designer.cs">
+      <DependentUpon>201607141821512_AddNumberForDays.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\CityByDefault.cs" />
     <Compile Include="Models\Coord.cs" />
-    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Days.cs" />
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\IWebApi.cs" />
     <Compile Include="Models\List.cs" />
@@ -233,6 +245,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607141647178_PopulateCityByDefaults.resx">
       <DependentUpon>201607141647178_PopulateCityByDefaults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607141746211_AddDaysTable.resx">
+      <DependentUpon>201607141746211_AddDaysTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607141748014_PopulateDaysTable.resx">
+      <DependentUpon>201607141748014_PopulateDaysTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607141821512_AddNumberForDays.resx">
+      <DependentUpon>201607141821512_AddNumberForDays.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

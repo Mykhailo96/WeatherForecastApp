@@ -11,11 +11,10 @@ namespace WeatherForecastApp.ViewModels
     {
         [Display(Name = "Find your city")]
         public int CityByDefaultId { get; set; }
-        public CityByDefault CityByDefault { get; set; }
 
         [Required]
         [Display(Name = "Select days")]
-        public EnumDays DaysAmount { get; set; }
+        public byte DaysId { get; set; }
 
         [Display(Name = "Enter city")]
         public string CityName { get; set; }

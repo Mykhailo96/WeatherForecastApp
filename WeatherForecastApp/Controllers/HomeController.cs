@@ -22,22 +22,24 @@ namespace WeatherForecastApp.Controllers
         public ActionResult City()
         {
             var cities = _context.CityByDefaults.ToList();
+            var days = _context.Days.ToList();
 
             ViewBag.Default = cities;
+            ViewBag.Days = days;
 
             return View();
         }
 
         public ActionResult Index(CityViewModel city)
-        {
-            if (!ModelState.IsValid)// || city.NameByDefault == EnumCity.Select && city.CityName == null)
+         {
+            if (!ModelState.IsValid)
                 return View("City", city);
 
             string name;
 
             if(city.CityName == null)
             {
-                name = city.CityByDefault.Name;
+                name = _context.CityByDefaults.SingleOrDefault(c => c.Id == city.CityByDefaultId).Name;
             }
             else
             {
@@ -46,7 +48,9 @@ namespace WeatherForecastApp.Controllers
 
             ViewBag.Name = name;
 
-            return View(api.getForecast(name, (int)city.DaysAmount + 1));
+            int num = _context.Days.SingleOrDefault(d => d.Id == city.DaysId).Number;
+
+            return View(api.getForecast(name, num));
         }
 
         public ActionResult Redirect(string name, int days)
