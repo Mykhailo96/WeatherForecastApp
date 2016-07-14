@@ -10,7 +10,8 @@ namespace WeatherForecastApp.ViewModels
     public class CityViewModel
     {
         [Display(Name = "Find your city")]
-        public EnumCity NameFromEnum { get; set; }
+        public int CityByDefaultId { get; set; }
+        public CityByDefault CityByDefault { get; set; }
 
         [Required]
         [Display(Name = "Select days")]

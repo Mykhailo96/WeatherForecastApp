@@ -11,26 +11,33 @@ namespace WeatherForecastApp.Controllers
     public class HomeController : Controller
     {
         private IWebApi api;
+        private ApplicationDbContext _context;
 
         public HomeController(IWebApi webApi)
         {
             api = webApi;
+            _context = new ApplicationDbContext();
         }
 
         public ActionResult City()
         {
+            var cities = _context.CityByDefaults.ToList();
+
+            ViewBag.Default = cities;
+
             return View();
         }
 
         public ActionResult Index(CityViewModel city)
         {
-            if (!ModelState.IsValid || city.NameFromEnum == EnumCity.Select && city.CityName == null)
+            if (!ModelState.IsValid)// || city.NameByDefault == EnumCity.Select && city.CityName == null)
                 return View("City", city);
 
             string name;
+
             if(city.CityName == null)
             {
-                name = Enum.GetName(typeof(EnumCity), city.NameFromEnum);
+                name = city.CityByDefault.Name;
             }
             else
             {
