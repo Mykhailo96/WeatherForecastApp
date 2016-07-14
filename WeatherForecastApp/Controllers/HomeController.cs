@@ -59,5 +59,14 @@ namespace WeatherForecastApp.Controllers
 
             return View("Index", api.getForecast(name, days));
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

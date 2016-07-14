@@ -188,7 +188,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\delete.png" />
     <Content Include="Content\img.jpg" />
     <Content Include="Content\owfont-regular.css" />
     <Content Include="Content\owfont-regular.min.css" />
@@ -229,7 +228,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\City.cshtml" />
+    <Content Include="Views\City\Delete.cshtml" />
     <Content Include="Views\City\List.cshtml" />
+    <Content Include="Views\City\Add.cshtml" />
+    <Content Include="Views\City\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
