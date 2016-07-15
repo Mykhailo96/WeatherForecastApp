@@ -48,9 +48,30 @@ namespace WeatherForecastApp.Controllers
 
             ViewBag.Name = name;
 
-            int num = _context.Days.SingleOrDefault(d => d.Id == city.DaysId).Number;
+            int days = _context.Days.SingleOrDefault(d => d.Id == city.DaysId).Number;
 
-            return View(api.getForecast(name, num));
+            Forecast forecast = api.getForecast(name, days);
+
+            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
+
+            if (cityInDb == null)
+            {
+                var coord = _context.Coords.Add(forecast.City.Coord);
+
+                forecast.City.CoordId = coord.Id;
+                _context.Cities.Add(forecast.City);
+            }
+
+            //foreach (var day in forecast.List)
+            //{
+            //    _context.Lists.Add(day);
+            //    _context.Temps.Add(day.Temp);
+            //    _context.Weathers.Add(day.Weather[0]);
+            //}
+
+            _context.SaveChanges();
+
+            return View(forecast);
         }
 
         public ActionResult Redirect(string name, int days)
@@ -61,7 +82,7 @@ namespace WeatherForecastApp.Controllers
 
             //var city = _context.Cities.SingleOrDefault(c => c.Id == forecast.CityId);
 
-            //if (city != null)
+            //if (city == null)
             //{
             //    _context.Cities.Add(forecast.City);
             //}

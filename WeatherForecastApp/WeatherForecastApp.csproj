@@ -178,6 +178,14 @@
     <Compile Include="Migrations\201607151400380_DeleteForecastTable.Designer.cs">
       <DependentUpon>201607151400380_DeleteForecastTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151533450_DropTables.cs" />
+    <Compile Include="Migrations\201607151533450_DropTables.Designer.cs">
+      <DependentUpon>201607151533450_DropTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151537499_CreateTables.cs" />
+    <Compile Include="Migrations\201607151537499_CreateTables.Designer.cs">
+      <DependentUpon>201607151537499_CreateTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
@@ -273,6 +281,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151400380_DeleteForecastTable.resx">
       <DependentUpon>201607151400380_DeleteForecastTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151533450_DropTables.resx">
+      <DependentUpon>201607151533450_DropTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151537499_CreateTables.resx">
+      <DependentUpon>201607151537499_CreateTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
