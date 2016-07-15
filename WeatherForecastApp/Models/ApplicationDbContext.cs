@@ -12,6 +12,19 @@ namespace WeatherForecastApp.Models
 
         public DbSet<Days> Days { get; set; }
 
+        public DbSet<Forecast> Forecasts { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Coord> Coords { get; set; }
+
+        public DbSet<List> Lists { get; set; }
+
+        public DbSet<Temp> Temps { get; set; }
+
+        public DbSet<Weather> Weathers { get; set; }
+
+
         public ApplicationDbContext() : base("WeatherForecastApp")
         {
         }

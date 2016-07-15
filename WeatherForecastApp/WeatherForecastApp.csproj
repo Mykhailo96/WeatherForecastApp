@@ -170,6 +170,10 @@
     <Compile Include="Migrations\201607141821512_AddNumberForDays.Designer.cs">
       <DependentUpon>201607141821512_AddNumberForDays.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151313397_AddForecastTables.cs" />
+    <Compile Include="Migrations\201607151313397_AddForecastTables.Designer.cs">
+      <DependentUpon>201607151313397_AddForecastTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
@@ -259,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607141821512_AddNumberForDays.resx">
       <DependentUpon>201607141821512_AddNumberForDays.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151313397_AddForecastTables.resx">
+      <DependentUpon>201607151313397_AddForecastTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
