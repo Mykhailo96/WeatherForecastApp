@@ -12,8 +12,6 @@ namespace WeatherForecastApp.Models
 
         public DbSet<Days> Days { get; set; }
 
-        public DbSet<Forecast> Forecasts { get; set; }
-
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Coord> Coords { get; set; }

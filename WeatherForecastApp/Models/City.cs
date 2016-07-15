@@ -17,5 +17,7 @@ namespace WeatherForecastApp.Models
         public string Country { get; set; }
 
         public int Population { get; set; }
+
+        public List<List> List { get; set; }
     }
 }

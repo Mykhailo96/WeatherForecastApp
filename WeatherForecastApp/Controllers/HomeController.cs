@@ -57,7 +57,25 @@ namespace WeatherForecastApp.Controllers
         {
             ViewBag.Name = name;
 
-            return View("Index", api.getForecast(name, days));
+            Forecast forecast = api.getForecast(name, days);
+
+            //var city = _context.Cities.SingleOrDefault(c => c.Id == forecast.CityId);
+
+            //if (city != null)
+            //{
+            //    _context.Cities.Add(forecast.City);
+            //}
+
+            //_context.Coords.Add(forecast.City.Coord);
+
+            //foreach (var day in forecast.List)
+            //{
+            //    _context.Lists.Add(day);
+            //    _context.Temps.Add(day.Temp);
+            //    _context.Weathers.Add(day.Weather[0]);
+            //}
+
+            return View("Index", forecast);
         }
 
         protected override void Dispose(bool disposing)
