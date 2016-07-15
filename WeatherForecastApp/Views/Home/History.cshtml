@@ -1,0 +1,22 @@
+﻿@model WeatherForecastApp.Models.Forecast
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>@Model.City.Name, @Model.City.Country</h2>
+
+<ul>
+    @foreach (var day in Model.List)
+    {
+        <li>
+            <strong>@day.Temp.Date</strong>
+            <br />
+            Day: @day.Temp.Day °C,
+            Night: @day.Temp.Night °C,
+            Pressure: @day.Pressure Bar,
+            Humidity: @day.Humidity %,
+            Rain: @day.Rain mm
+        </li>
+    }
+</ul>
+

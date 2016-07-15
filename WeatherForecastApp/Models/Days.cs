@@ -5,12 +5,12 @@ using System.Web;
 
 namespace WeatherForecastApp.Models
 {
-    public class Coord
+    public class Days
     {
-        public int Id { get; set; }
+        public byte Id { get; set; }
 
-        public double Lon { get; set; }
+        public string Name { get; set; }
 
-        public double Lat { get; set; }
+        public byte Number { get; set; }
     }
 }

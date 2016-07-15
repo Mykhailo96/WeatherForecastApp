@@ -5,32 +5,42 @@ using System.Web;
 using System.Web.Mvc;
 using WeatherForecastApp.Models;
 using WeatherForecastApp.ViewModels;
+using System.Data.Entity;
 
 namespace WeatherForecastApp.Controllers
 {
     public class HomeController : Controller
     {
         private IWebApi api;
+        private ApplicationDbContext _context;
 
         public HomeController(IWebApi webApi)
         {
             api = webApi;
+            _context = new ApplicationDbContext();
         }
 
         public ActionResult City()
         {
+            var cities = _context.CityByDefaults.ToList();
+            var days = _context.Days.ToList();
+
+            ViewBag.Default = cities;
+            ViewBag.Days = days;
+
             return View();
         }
 
         public ActionResult Index(CityViewModel city)
-        {
-            if (!ModelState.IsValid || city.NameFromEnum == EnumCity.Select && city.CityName == null)
+         {
+            if (!ModelState.IsValid)
                 return View("City", city);
 
             string name;
+
             if(city.CityName == null)
             {
-                name = Enum.GetName(typeof(EnumCity), city.NameFromEnum);
+                name = _context.CityByDefaults.SingleOrDefault(c => c.Id == city.CityByDefaultId).Name;
             }
             else
             {
@@ -39,14 +49,127 @@ namespace WeatherForecastApp.Controllers
 
             ViewBag.Name = name;
 
-            return View(api.getForecast(name, (int)city.DaysAmount + 1));
+            int days = _context.Days.SingleOrDefault(d => d.Id == city.DaysId).Number;
+
+            Forecast forecast = api.getForecast(name, days);
+
+            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
+
+            if (cityInDb == null)
+            {
+                cityInDb = _context.Cities.Add(forecast.City);
+            }
+
+            _context.SaveChanges();
+
+            int i = 0;
+            foreach (var day in forecast.List)
+            {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
+
+                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
+
+                if (dayInDb == null)
+                {
+                    var newTemp = _context.Temps.Add(day.Temp);
+                    newTemp.Date = date;
+
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = _context.Lists.Add(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+                else
+                {   //update when forecast changes
+                    dayInDb = day;
+
+                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
+
+                    newTemp = day.Temp;
+
+                    _context.SaveChanges();
+                }
+            }
+
+            return View(forecast);
         }
 
         public ActionResult Redirect(string name, int days)
         {
             ViewBag.Name = name;
 
-            return View("Index", api.getForecast(name, days));
+            Forecast forecast = api.getForecast(name, days);
+
+            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
+            
+            int i = 0;
+
+            foreach (var day in forecast.List)
+            {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
+
+                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
+
+                if (dayInDb == null)
+                {
+                    var newTemp = _context.Temps.Add(day.Temp);
+
+                    newTemp.Date = date;
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = _context.Lists.Add(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    dayInDb = day;
+
+                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
+
+                    newTemp = day.Temp;
+
+                    _context.SaveChanges();
+                }  
+            }           
+
+            return View("Index", forecast);
+        }
+
+        public ActionResult History(int? id)
+        {
+            var city = _context.Cities.SingleOrDefault(c => c.Id == id);
+
+            if(city == null)
+                return HttpNotFound();
+
+            List<List> list = _context.Lists.Include(t => t.Temp).Where(l => l.CityId == city.Id).ToList();
+
+            Forecast forecast = new Forecast();
+            forecast.City = city;
+            forecast.List = list;
+
+            return View(forecast);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
