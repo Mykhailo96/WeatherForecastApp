@@ -3,10 +3,20 @@
     ViewBag.Title = "History";
 }
 
-<h2>@Model.City.Name</h2>
+<h2>@Model.City.Name, @Model.City.Country</h2>
 
-@foreach (var item in Model.List)
-{
-    <p>@item.Temp.Day</p>
-}
+<ul>
+    @foreach (var day in Model.List)
+    {
+        <li>
+            <strong>@day.Temp.Date</strong>
+            <br />
+            Day: @day.Temp.Day °C,
+            Night: @day.Temp.Night °C,
+            Pressure: @day.Pressure Bar,
+            Humidity: @day.Humidity %,
+            Rain: @day.Rain mm
+        </li>
+    }
+</ul>
 

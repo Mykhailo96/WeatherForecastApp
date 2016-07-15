@@ -198,6 +198,10 @@
     <Compile Include="Migrations\201607151902249_AddDate.Designer.cs">
       <DependentUpon>201607151902249_AddDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151922223_DeleteCoordTable.cs" />
+    <Compile Include="Migrations\201607151922223_DeleteCoordTable.Designer.cs">
+      <DependentUpon>201607151922223_DeleteCoordTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
@@ -309,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151902249_AddDate.resx">
       <DependentUpon>201607151902249_AddDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151922223_DeleteCoordTable.resx">
+      <DependentUpon>201607151922223_DeleteCoordTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

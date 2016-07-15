@@ -57,9 +57,6 @@ namespace WeatherForecastApp.Controllers
 
             if (cityInDb == null)
             {
-                var coord = _context.Coords.Add(forecast.City.Coord);
-
-                forecast.City.CoordId = coord.Id;
                 cityInDb = _context.Cities.Add(forecast.City);
             }
 
@@ -89,10 +86,10 @@ namespace WeatherForecastApp.Controllers
                     _context.SaveChanges();
                 }
                 else
-                {
+                {   //update when forecast changes
                     dayInDb = day;
 
-                    var newTemp = _context.Temps.Single(t => t.Id == dayInDb.TempId);
+                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
 
                     newTemp = day.Temp;
 
@@ -139,7 +136,7 @@ namespace WeatherForecastApp.Controllers
                 {
                     dayInDb = day;
 
-                    var newTemp = _context.Temps.Single(t => t.Id == dayInDb.TempId);
+                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
 
                     newTemp = day.Temp;
 

@@ -13,7 +13,7 @@ namespace WeatherForecastApp.Models
 
         public string Name { get; set; }
 
-        public int CoordId { get; set; }
+        [NotMapped]
         public Coord Coord { get; set; }
 
         public string Country { get; set; }
