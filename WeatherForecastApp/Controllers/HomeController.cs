@@ -59,17 +59,33 @@ namespace WeatherForecastApp.Controllers
                 var coord = _context.Coords.Add(forecast.City.Coord);
 
                 forecast.City.CoordId = coord.Id;
-                _context.Cities.Add(forecast.City);
+                cityInDb = _context.Cities.Add(forecast.City);
             }
 
-            //foreach (var day in forecast.List)
-            //{
-            //    _context.Lists.Add(day);
-            //    _context.Temps.Add(day.Temp);
-            //    _context.Weathers.Add(day.Weather[0]);
-            //}
-
             _context.SaveChanges();
+
+
+            foreach (var day in forecast.List)
+            {
+
+                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
+
+                if (dayInDb == null)
+                {
+                    var newTemp = _context.Temps.Add(day.Temp);
+
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = _context.Lists.Add(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+            }
 
             return View(forecast);
         }
@@ -80,21 +96,29 @@ namespace WeatherForecastApp.Controllers
 
             Forecast forecast = api.getForecast(name, days);
 
-            //var city = _context.Cities.SingleOrDefault(c => c.Id == forecast.CityId);
+            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
 
-            //if (city == null)
-            //{
-            //    _context.Cities.Add(forecast.City);
-            //}
+            foreach (var day in forecast.List)
+            {
 
-            //_context.Coords.Add(forecast.City.Coord);
+                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
 
-            //foreach (var day in forecast.List)
-            //{
-            //    _context.Lists.Add(day);
-            //    _context.Temps.Add(day.Temp);
-            //    _context.Weathers.Add(day.Weather[0]);
-            //}
+                if (dayInDb == null)
+                {
+                    var newTemp = _context.Temps.Add(day.Temp);
+
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = _context.Lists.Add(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }  
+            }           
 
             return View("Index", forecast);
         }

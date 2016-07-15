@@ -20,11 +20,10 @@ namespace WeatherForecastApp.Models
 
         public DbSet<Temp> Temps { get; set; }
 
-        public DbSet<Weather> Weathers { get; set; }
-
 
         public ApplicationDbContext() : base("WeatherForecastApp")
         {
+            Database.SetInitializer<ApplicationDbContext>(new CreateDatabaseIfNotExists<ApplicationDbContext>());
         }
     }
 }

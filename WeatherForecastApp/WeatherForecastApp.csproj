@@ -186,6 +186,14 @@
     <Compile Include="Migrations\201607151537499_CreateTables.Designer.cs">
       <DependentUpon>201607151537499_CreateTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151615377_AddIdColumn.cs" />
+    <Compile Include="Migrations\201607151615377_AddIdColumn.Designer.cs">
+      <DependentUpon>201607151615377_AddIdColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151828380_DeleteWeather.cs" />
+    <Compile Include="Migrations\201607151828380_DeleteWeather.Designer.cs">
+      <DependentUpon>201607151828380_DeleteWeather.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
@@ -287,6 +295,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151537499_CreateTables.resx">
       <DependentUpon>201607151537499_CreateTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151615377_AddIdColumn.resx">
+      <DependentUpon>201607151615377_AddIdColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151828380_DeleteWeather.resx">
+      <DependentUpon>201607151828380_DeleteWeather.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

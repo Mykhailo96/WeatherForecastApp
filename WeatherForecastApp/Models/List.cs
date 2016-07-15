@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +19,7 @@ namespace WeatherForecastApp.Models
 
         public int Humidity { get; set; }
 
+        [NotMapped]
         public List<Weather> Weather { get; set; }
 
         public double Speed { get; set; }
@@ -27,5 +29,7 @@ namespace WeatherForecastApp.Models
         public int Clouds { get; set; }
 
         public double Rain { get; set; }
+
+        public int CityId { get; set; }
     }
 }
