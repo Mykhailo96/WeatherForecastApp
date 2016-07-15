@@ -20,5 +20,7 @@ namespace WeatherForecastApp.Models
         public double Eve { get; set; }
 
         public double Morn { get; set; }
+
+        public string Date { get; set; }
     }
 }

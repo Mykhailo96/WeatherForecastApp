@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201607151828380_DeleteWeather.Designer.cs">
       <DependentUpon>201607151828380_DeleteWeather.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151902249_AddDate.cs" />
+    <Compile Include="Migrations\201607151902249_AddDate.Designer.cs">
+      <DependentUpon>201607151902249_AddDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\City.cs" />
@@ -256,6 +260,7 @@
     <Content Include="Views\City\List.cshtml" />
     <Content Include="Views\City\Add.cshtml" />
     <Content Include="Views\City\Edit.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151828380_DeleteWeather.resx">
       <DependentUpon>201607151828380_DeleteWeather.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151902249_AddDate.resx">
+      <DependentUpon>201607151902249_AddDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

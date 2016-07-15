@@ -1,0 +1,12 @@
+﻿@model WeatherForecastApp.Models.Forecast
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>@Model.City.Name</h2>
+
+@foreach (var item in Model.List)
+{
+    <p>@item.Temp.Day</p>
+}
+

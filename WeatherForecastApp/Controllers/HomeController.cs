@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WeatherForecastApp.Models;
 using WeatherForecastApp.ViewModels;
+using System.Data.Entity;
 
 namespace WeatherForecastApp.Controllers
 {
@@ -64,15 +65,17 @@ namespace WeatherForecastApp.Controllers
 
             _context.SaveChanges();
 
-
+            int i = 0;
             foreach (var day in forecast.List)
             {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
 
                 var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
 
                 if (dayInDb == null)
                 {
                     var newTemp = _context.Temps.Add(day.Temp);
+                    newTemp.Date = date;
 
                     _context.SaveChanges();
 
@@ -82,6 +85,16 @@ namespace WeatherForecastApp.Controllers
                     var newDay = _context.Lists.Add(day);
 
                     cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    dayInDb = day;
+
+                    var newTemp = _context.Temps.Single(t => t.Id == dayInDb.TempId);
+
+                    newTemp = day.Temp;
 
                     _context.SaveChanges();
                 }
@@ -97,9 +110,12 @@ namespace WeatherForecastApp.Controllers
             Forecast forecast = api.getForecast(name, days);
 
             var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
+            
+            int i = 0;
 
             foreach (var day in forecast.List)
             {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
 
                 var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
 
@@ -107,6 +123,7 @@ namespace WeatherForecastApp.Controllers
                 {
                     var newTemp = _context.Temps.Add(day.Temp);
 
+                    newTemp.Date = date;
                     _context.SaveChanges();
 
                     day.TempId = newTemp.Id;
@@ -117,10 +134,36 @@ namespace WeatherForecastApp.Controllers
                     cityInDb.List.Add(newDay);
 
                     _context.SaveChanges();
+                }
+                else
+                {
+                    dayInDb = day;
+
+                    var newTemp = _context.Temps.Single(t => t.Id == dayInDb.TempId);
+
+                    newTemp = day.Temp;
+
+                    _context.SaveChanges();
                 }  
             }           
 
             return View("Index", forecast);
+        }
+
+        public ActionResult History(int? id)
+        {
+            var city = _context.Cities.SingleOrDefault(c => c.Id == id);
+
+            if(city == null)
+                return HttpNotFound();
+
+            List<List> list = _context.Lists.Include(t => t.Temp).Where(l => l.CityId == city.Id).ToList();
+
+            Forecast forecast = new Forecast();
+            forecast.City = city;
+            forecast.List = list;
+
+            return View(forecast);
         }
 
         protected override void Dispose(bool disposing)

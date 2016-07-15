@@ -5,6 +5,8 @@
 
 <div>
     <h2>@Model.City.Name</h2>
+    <br />
+    @Html.ActionLink("History", "History", new { id = Model.City.Id}, new { @class = "btn btn-primary" })
 </div>
 
 <div>
