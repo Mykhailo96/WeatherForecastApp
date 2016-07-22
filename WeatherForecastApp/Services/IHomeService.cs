@@ -27,7 +27,9 @@ namespace WeatherForecastApp.Services
 
         int GetDaysNumberById(int id);
 
-        void SaveAllChanges();
+        Forecast GetForecast(Forecast forecast);
+
+        Forecast GetForecastRedirect(Forecast forecast);
 
         void Dispose();
     }

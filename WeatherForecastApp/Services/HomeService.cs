@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WeatherForecastApp.Models;
+using WeatherForecastApp.ViewModels;
 using System.Data.Entity;
+using System;
 
 namespace WeatherForecastApp.Services
 {
@@ -54,11 +56,6 @@ namespace WeatherForecastApp.Services
             return _context.Days.SingleOrDefault(d => d.Id == id).Number;
         }
 
-        public void SaveAllChanges()
-        {
-            _context.SaveChanges();
-        }
-
         public List AddList(List list)
         {
             return _context.Lists.Add(list);
@@ -77,6 +74,97 @@ namespace WeatherForecastApp.Services
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public Forecast GetForecast(Forecast forecast)
+        {
+            var cityInDb = GetCityById(forecast.City.Id);
+
+            if (cityInDb == null)
+            {
+                cityInDb = AddCity(forecast.City);
+            }
+
+            _context.SaveChanges();
+
+            int i = 0;
+            foreach (var day in forecast.List)
+            {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
+
+                var dayInDb = GetListByDateAndCityId(day.Dt, forecast.City.Id);
+
+                if (dayInDb == null)
+                {
+                    var newTemp = AddTemp(day.Temp);
+                    newTemp.Date = date;
+
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = AddList(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+                else
+                {   //update when forecast changes
+                    dayInDb = day;
+
+                    var newTemp = GetTempById(dayInDb.TempId);
+
+                    newTemp = day.Temp;
+
+                    _context.SaveChanges();
+                }
+            }
+
+            return forecast;
+        }
+
+        public Forecast GetForecastRedirect(Forecast forecast)
+        {
+            var cityInDb = GetCityById(forecast.City.Id);
+
+            int i = 0;
+
+            foreach (var day in forecast.List)
+            {
+                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
+
+                var dayInDb = GetListByDateAndCityId(day.Dt, forecast.City.Id);
+
+                if (dayInDb == null)
+                {
+                    var newTemp = AddTemp(day.Temp);
+
+                    newTemp.Date = date;
+                    _context.SaveChanges();
+
+                    day.TempId = newTemp.Id;
+                    day.CityId = cityInDb.Id;
+
+                    var newDay = AddList(day);
+
+                    cityInDb.List.Add(newDay);
+
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    dayInDb = day;
+
+                    var newTemp = GetTempById(dayInDb.TempId);
+
+                    newTemp = day.Temp;
+
+                    _context.SaveChanges();
+                }
+            }
+            return forecast;
         }
     }
 }
