@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.Web.Common;
 using WeatherForecastApp.Models;
+using WeatherForecastApp.Services;
 
 namespace WeatherForecastApp.DI
 {
@@ -32,6 +33,8 @@ namespace WeatherForecastApp.DI
         private void AddBindings()
         {
             _kernel.Bind<IWebApi>().To<WeatherApi>();
+            _kernel.Bind<IHomeService>().To<HomeService>();
+            _kernel.Bind<ICityService>().To<CityService>();
         }
     }
 }

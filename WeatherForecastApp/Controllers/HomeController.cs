@@ -6,27 +6,25 @@ using System.Web.Mvc;
 using WeatherForecastApp.Models;
 using WeatherForecastApp.ViewModels;
 using System.Data.Entity;
+using WeatherForecastApp.Services;
 
 namespace WeatherForecastApp.Controllers
 {
     public class HomeController : Controller
     {
         private IWebApi api;
-        private ApplicationDbContext _context;
+        private IHomeService _service;
 
-        public HomeController(IWebApi webApi)
+        public HomeController(IWebApi webApi, IHomeService service)
         {
             api = webApi;
-            _context = new ApplicationDbContext();
+            _service = service;
         }
 
         public ActionResult City()
         {
-            var cities = _context.CityByDefaults.ToList();
-            var days = _context.Days.ToList();
-
-            ViewBag.Default = cities;
-            ViewBag.Days = days;
+            ViewBag.Default = _service.CitiesByDefaultList();
+            ViewBag.Days = _service.DaysList();
 
             return View();
         }
@@ -40,7 +38,7 @@ namespace WeatherForecastApp.Controllers
 
             if(city.CityName == null)
             {
-                name = _context.CityByDefaults.SingleOrDefault(c => c.Id == city.CityByDefaultId).Name;
+                name = _service.GetCityNameById(city.CityByDefaultId);
             }
             else
             {
@@ -49,55 +47,11 @@ namespace WeatherForecastApp.Controllers
 
             ViewBag.Name = name;
 
-            int days = _context.Days.SingleOrDefault(d => d.Id == city.DaysId).Number;
+            int days = _service.GetDaysNumberById(city.DaysId);
 
             Forecast forecast = api.getForecast(name, days);
 
-            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
-
-            if (cityInDb == null)
-            {
-                cityInDb = _context.Cities.Add(forecast.City);
-            }
-
-            _context.SaveChanges();
-
-            int i = 0;
-            foreach (var day in forecast.List)
-            {
-                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
-
-                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
-
-                if (dayInDb == null)
-                {
-                    var newTemp = _context.Temps.Add(day.Temp);
-                    newTemp.Date = date;
-
-                    _context.SaveChanges();
-
-                    day.TempId = newTemp.Id;
-                    day.CityId = cityInDb.Id;
-
-                    var newDay = _context.Lists.Add(day);
-
-                    cityInDb.List.Add(newDay);
-
-                    _context.SaveChanges();
-                }
-                else
-                {   //update when forecast changes
-                    dayInDb = day;
-
-                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
-
-                    newTemp = day.Temp;
-
-                    _context.SaveChanges();
-                }
-            }
-
-            return View(forecast);
+            return View(_service.GetForecast(forecast));
         }
 
         public ActionResult Redirect(string name, int days)
@@ -106,58 +60,42 @@ namespace WeatherForecastApp.Controllers
 
             Forecast forecast = api.getForecast(name, days);
 
-            var cityInDb = _context.Cities.SingleOrDefault(c => c.Id == forecast.City.Id);
-            
-            int i = 0;
-
-            foreach (var day in forecast.List)
-            {
-                string date = DateTime.Now.AddDays(i++).ToString("yyyy-MM-dd");
-
-                var dayInDb = _context.Lists.SingleOrDefault(d => d.Dt == day.Dt && d.CityId == forecast.City.Id);
-
-                if (dayInDb == null)
-                {
-                    var newTemp = _context.Temps.Add(day.Temp);
-
-                    newTemp.Date = date;
-                    _context.SaveChanges();
-
-                    day.TempId = newTemp.Id;
-                    day.CityId = cityInDb.Id;
-
-                    var newDay = _context.Lists.Add(day);
-
-                    cityInDb.List.Add(newDay);
-
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    dayInDb = day;
-
-                    var newTemp = _context.Temps.SingleOrDefault(t => t.Id == dayInDb.TempId);
-
-                    newTemp = day.Temp;
-
-                    _context.SaveChanges();
-                }  
-            }           
-
-            return View("Index", forecast);
+            return View("Index", _service.GetForecastRedirect(forecast));
         }
 
-        public ActionResult History(int? id)
+        public ActionResult History()
         {
-            var city = _context.Cities.SingleOrDefault(c => c.Id == id);
+            ViewBag.Default = _service.CitiesByDefaultList();
 
-            if(city == null)
-                return HttpNotFound();
+            return View("CityHistory");
+        }
 
-            List<List> list = _context.Lists.Include(t => t.Temp).Where(l => l.CityId == city.Id).ToList();
+        [HttpPost]
+        public ActionResult History(CityHistoryViewModel city)
+        {
+            if (!ModelState.IsValid)
+                return View("CityHistory", city);
+
+            string name;
+
+            if (city.CityName == null)
+            {
+                name = _service.GetCityNameById(city.CityByDefaultId);
+            }
+            else
+            {
+                name = city.CityName;
+            }
+
+            var cityInDb = _service.GetCityByName(name);
+
+            if (cityInDb == null)
+                return View();
+
+            List<List> list = _service.GetListsWithTempsByCityid(cityInDb.Id);
 
             Forecast forecast = new Forecast();
-            forecast.City = city;
+            forecast.City = cityInDb;
             forecast.List = list;
 
             return View(forecast);
@@ -167,7 +105,7 @@ namespace WeatherForecastApp.Controllers
         {
             if (disposing)
             {
-                _context.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

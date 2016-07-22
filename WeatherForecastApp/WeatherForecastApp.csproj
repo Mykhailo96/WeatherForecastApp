@@ -215,6 +215,11 @@
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Models\WeatherApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CityService.cs" />
+    <Compile Include="Services\HomeService.cs" />
+    <Compile Include="Services\ICityService.cs" />
+    <Compile Include="Services\IHomeService.cs" />
+    <Compile Include="ViewModels\CityHistoryViewModel.cs" />
     <Compile Include="ViewModels\CityViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +240,7 @@
     <Content Include="fonts\owfont-regular.ttf" />
     <Content Include="fonts\owfont-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\city-history.js" />
     <Content Include="Scripts\city.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -265,6 +271,7 @@
     <Content Include="Views\City\Add.cshtml" />
     <Content Include="Views\City\Edit.cshtml" />
     <Content Include="Views\Home\History.cshtml" />
+    <Content Include="Views\Home\CityHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
