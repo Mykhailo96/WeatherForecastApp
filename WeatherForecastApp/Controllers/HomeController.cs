@@ -63,17 +63,39 @@ namespace WeatherForecastApp.Controllers
             return View("Index", _service.GetForecastRedirect(forecast));
         }
 
-        public ActionResult History(int? id)
+        public ActionResult History()
         {
-            var city = _service.GetCityById(id);
+            ViewBag.Default = _service.CitiesByDefaultList();
 
-            if(city == null)
-                return HttpNotFound();
+            return View("CityHistory");
+        }
 
-            List<List> list = _service.GetListsWithTempsByCityid(city.Id);
+        [HttpPost]
+        public ActionResult History(CityHistoryViewModel city)
+        {
+            if (!ModelState.IsValid)
+                return View("CityHistory", city);
+
+            string name;
+
+            if (city.CityName == null)
+            {
+                name = _service.GetCityNameById(city.CityByDefaultId);
+            }
+            else
+            {
+                name = city.CityName;
+            }
+
+            var cityInDb = _service.GetCityByName(name);
+
+            if (cityInDb == null)
+                return View();
+
+            List<List> list = _service.GetListsWithTempsByCityid(cityInDb.Id);
 
             Forecast forecast = new Forecast();
-            forecast.City = city;
+            forecast.City = cityInDb;
             forecast.List = list;
 
             return View(forecast);

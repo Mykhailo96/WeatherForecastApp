@@ -166,5 +166,10 @@ namespace WeatherForecastApp.Services
             }
             return forecast;
         }
+
+        public City GetCityByName(string name)
+        {
+            return _context.Cities.SingleOrDefault(c => c.Name == name);
+        }
     }
 }

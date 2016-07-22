@@ -11,6 +11,8 @@ namespace WeatherForecastApp.Services
 
         City GetCityById(int? id);
 
+        City GetCityByName(string name);
+
         City AddCity(City city);
 
         List GetListByDateAndCityId(int dt, int cityId);
