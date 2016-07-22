@@ -34,6 +34,7 @@ namespace WeatherForecastApp.DI
         {
             _kernel.Bind<IWebApi>().To<WeatherApi>();
             _kernel.Bind<IHomeService>().To<HomeService>();
+            _kernel.Bind<ICityService>().To<CityService>();
         }
     }
 }

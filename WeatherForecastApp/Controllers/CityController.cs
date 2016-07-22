@@ -7,21 +7,23 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WeatherForecastApp.Models;
+using WeatherForecastApp.Services;
 
 namespace WeatherForecastApp.Controllers
 {
     public class CityController : Controller
     {
-        private ApplicationDbContext _context;
-        public CityController()
+        private ICityService _service;
+
+        public CityController(ICityService service)
         {
-            _context = new ApplicationDbContext();
+            _service = service;
         }
 
         // GET: City
         public ActionResult Index()
         {
-            return View("List", _context.CityByDefaults.ToList());
+            return View("List", _service.GetCityByDefaultList());
         }
 
         // GET: City/Add
@@ -40,8 +42,8 @@ namespace WeatherForecastApp.Controllers
                 return View(city);
             }
 
-            _context.CityByDefaults.Add(city);
-            _context.SaveChanges();
+            _service.AddcityByDefault(city);
+            _service.SaveAllChanges();
 
             return RedirectToAction("Index");
         }
@@ -54,7 +56,7 @@ namespace WeatherForecastApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var city = _context.CityByDefaults.SingleOrDefault(c => c.Id == id);
+            var city = _service.GetCityByDefaultById(id);
 
             if (city == null)
             {
@@ -74,7 +76,7 @@ namespace WeatherForecastApp.Controllers
                 return View(city);
             }
 
-            var cityInDb = _context.CityByDefaults.SingleOrDefault(c => c.Id == city.Id);
+            var cityInDb = _service.GetCityByDefaultById(city.Id);
 
             if (cityInDb == null)
             {
@@ -82,7 +84,7 @@ namespace WeatherForecastApp.Controllers
             }
 
             cityInDb.Name = city.Name;
-            _context.SaveChanges();
+            _service.SaveAllChanges();
 
             return RedirectToAction("Index");
         }
@@ -95,7 +97,7 @@ namespace WeatherForecastApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var cityInDb = _context.CityByDefaults.SingleOrDefault(c => c.Id == id);
+            var cityInDb = _service.GetCityByDefaultById(id);
 
             if (cityInDb == null)
             {
@@ -110,10 +112,10 @@ namespace WeatherForecastApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var cityInDb = _context.CityByDefaults.SingleOrDefault(c => c.Id == id);
+            var cityInDb = _service.GetCityByDefaultById(id);
 
-            _context.CityByDefaults.Remove(cityInDb);
-            _context.SaveChanges();
+            _service.RemoveCityByDefault(cityInDb);
+            _service.SaveAllChanges();
 
             return RedirectToAction("Index");
         }
@@ -122,7 +124,7 @@ namespace WeatherForecastApp.Controllers
         {
             if (disposing)
             {
-                _context.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }
