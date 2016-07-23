@@ -7,6 +7,7 @@ using WeatherForecastApp.Models;
 using WeatherForecastApp.ViewModels;
 using System.Data.Entity;
 using WeatherForecastApp.Services;
+using System.Threading.Tasks;
 
 namespace WeatherForecastApp.Controllers
 {
@@ -21,15 +22,15 @@ namespace WeatherForecastApp.Controllers
             _service = service;
         }
 
-        public ActionResult City()
+        public async Task<ActionResult> City()
         {
-            ViewBag.Default = _service.CitiesByDefaultList();
-            ViewBag.Days = _service.DaysList();
+            ViewBag.Default = await _service.CitiesByDefaultListAsync();
+            ViewBag.Days = await _service.DaysListAsync();
 
             return View();
         }
 
-        public ActionResult Index(CityViewModel city)
+        public async Task<ActionResult> Index(CityViewModel city)
          {
             if (!ModelState.IsValid)
                 return View("City", city);
@@ -38,7 +39,7 @@ namespace WeatherForecastApp.Controllers
 
             if(city.CityName == null)
             {
-                name = _service.GetCityNameById(city.CityByDefaultId);
+                name = await _service.GetCityNameByIdAsync(city.CityByDefaultId);
             }
             else
             {
@@ -47,31 +48,31 @@ namespace WeatherForecastApp.Controllers
 
             ViewBag.Name = name;
 
-            int days = _service.GetDaysNumberById(city.DaysId);
+            int days = await _service.GetDaysNumberByIdAsync(city.DaysId);
 
-            Forecast forecast = api.getForecast(name, days);
+            Forecast forecast = await api.GetForecastAsync(name, days);
 
-            return View(_service.GetForecast(forecast));
+            return View(await _service.GetForecastAsync(forecast));
         }
 
-        public ActionResult Redirect(string name, int days)
+        public async Task<ActionResult> Redirect(string name, int days)
         {
             ViewBag.Name = name;
 
-            Forecast forecast = api.getForecast(name, days);
+            Forecast forecast = await api.GetForecastAsync(name, days);
 
-            return View("Index", _service.GetForecastRedirect(forecast));
+            return View("Index", await _service.GetForecastRedirectAsync(forecast));
         }
 
-        public ActionResult History()
+        public async Task<ActionResult> History()
         {
-            ViewBag.Default = _service.CitiesByDefaultList();
+            ViewBag.Default = await _service.CitiesByDefaultListAsync();
 
             return View("CityHistory");
         }
 
         [HttpPost]
-        public ActionResult History(CityHistoryViewModel city)
+        public async Task<ActionResult> History(CityHistoryViewModel city)
         {
             if (!ModelState.IsValid)
                 return View("CityHistory", city);
@@ -80,19 +81,19 @@ namespace WeatherForecastApp.Controllers
 
             if (city.CityName == null)
             {
-                name = _service.GetCityNameById(city.CityByDefaultId);
+                name = await _service.GetCityNameByIdAsync(city.CityByDefaultId);
             }
             else
             {
                 name = city.CityName;
             }
 
-            var cityInDb = _service.GetCityByName(name);
+            var cityInDb = await _service.GetCityByNameAsync(name);
 
             if (cityInDb == null)
                 return View();
 
-            List<List> list = _service.GetListsWithTempsByCityid(cityInDb.Id);
+            List<List> list = await _service.GetListsWithTempsByCityidAsync(cityInDb.Id);
 
             Forecast forecast = new Forecast();
             forecast.City = cityInDb;

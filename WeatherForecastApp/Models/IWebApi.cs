@@ -8,6 +8,6 @@ namespace WeatherForecastApp.Models
 {
     public interface IWebApi
     {
-        Forecast getForecast(string name, int days);
+        Task<Forecast> GetForecastAsync(string name, int days);
     }
 }

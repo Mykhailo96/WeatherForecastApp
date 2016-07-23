@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WeatherForecastApp.Models;
@@ -21,9 +22,9 @@ namespace WeatherForecastApp.Controllers
         }
 
         // GET: City
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View("List", _service.GetCityByDefaultList());
+            return View("List", await _service.GetCityByDefaultListAsync());
         }
 
         // GET: City/Add
@@ -35,7 +36,7 @@ namespace WeatherForecastApp.Controllers
         //POST: City/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(CityByDefault city)
+        public async Task<ActionResult> Add(CityByDefault city)
         {
             if (!ModelState.IsValid)
             {
@@ -43,20 +44,20 @@ namespace WeatherForecastApp.Controllers
             }
 
             _service.AddcityByDefault(city);
-            _service.SaveAllChanges();
+            await _service.SaveAllChangesAsync();
 
             return RedirectToAction("Index");
         }
 
         // GET: City/Edit/1
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var city = _service.GetCityByDefaultById(id);
+            var city = await _service.GetCityByDefaultByIdAsync(id);
 
             if (city == null)
             {
@@ -69,14 +70,14 @@ namespace WeatherForecastApp.Controllers
         // POST: City/Edit/1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CityByDefault city)
+        public async Task<ActionResult> Edit(CityByDefault city)
         {
             if (!ModelState.IsValid)
             {
                 return View(city);
             }
 
-            var cityInDb = _service.GetCityByDefaultById(city.Id);
+            var cityInDb = await _service.GetCityByDefaultByIdAsync(city.Id);
 
             if (cityInDb == null)
             {
@@ -84,20 +85,20 @@ namespace WeatherForecastApp.Controllers
             }
 
             cityInDb.Name = city.Name;
-            _service.SaveAllChanges();
+            await _service.SaveAllChangesAsync();
 
             return RedirectToAction("Index");
         }
 
         // GET: City/Delete/1
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var cityInDb = _service.GetCityByDefaultById(id);
+            var cityInDb = await _service.GetCityByDefaultByIdAsync(id);
 
             if (cityInDb == null)
             {
@@ -110,12 +111,12 @@ namespace WeatherForecastApp.Controllers
         // POST: City/Delete/1
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            var cityInDb = _service.GetCityByDefaultById(id);
+            var cityInDb = await _service.GetCityByDefaultByIdAsync(id);
 
             _service.RemoveCityByDefault(cityInDb);
-            _service.SaveAllChanges();
+            await _service.SaveAllChangesAsync();
 
             return RedirectToAction("Index");
         }
