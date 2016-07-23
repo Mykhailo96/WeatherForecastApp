@@ -19,7 +19,7 @@ namespace WeatherForecastApp.Models
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
-        public Forecast getForecast(string name, int days)
+        public Forecast GetForecast(string name, int days)
         {
             {
                 using (var client = new WebClient())

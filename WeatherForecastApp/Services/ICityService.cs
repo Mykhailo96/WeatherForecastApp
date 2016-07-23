@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WeatherForecastApp.Models;
 
 namespace WeatherForecastApp.Services
 {
     public interface ICityService
     {
-        List<CityByDefault> GetCityByDefaultList();
+        Task<List<CityByDefault>> GetCityByDefaultListAsync();
 
-        void SaveAllChanges();
+        Task SaveAllChangesAsync();
 
         void AddcityByDefault(CityByDefault city);
 
-        CityByDefault GetCityByDefaultById(int? id);
+        Task<CityByDefault> GetCityByDefaultByIdAsync(int? id);
 
         void RemoveCityByDefault(CityByDefault city);
 

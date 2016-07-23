@@ -49,7 +49,7 @@ namespace WeatherForecastApp.Controllers
 
             int days = _service.GetDaysNumberById(city.DaysId);
 
-            Forecast forecast = api.getForecast(name, days);
+            Forecast forecast = api.GetForecast(name, days);
 
             return View(_service.GetForecast(forecast));
         }
@@ -58,7 +58,7 @@ namespace WeatherForecastApp.Controllers
         {
             ViewBag.Name = name;
 
-            Forecast forecast = api.getForecast(name, days);
+            Forecast forecast = api.GetForecast(name, days);
 
             return View("Index", _service.GetForecastRedirect(forecast));
         }

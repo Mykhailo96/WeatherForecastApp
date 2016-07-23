@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using WeatherForecastApp.Models;
 
 namespace WeatherForecastApp.Services
@@ -13,14 +15,14 @@ namespace WeatherForecastApp.Services
             _context = new ApplicationDbContext();
         }
 
-        public List<CityByDefault> GetCityByDefaultList()
+        public async Task<List<CityByDefault>> GetCityByDefaultListAsync()
         {
-            return _context.CityByDefaults.ToList();
+            return await _context.CityByDefaults.ToListAsync();
         }
 
-        public void SaveAllChanges()
+        public async Task SaveAllChangesAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public void AddcityByDefault(CityByDefault city)
@@ -28,9 +30,9 @@ namespace WeatherForecastApp.Services
             _context.CityByDefaults.Add(city);
         }
 
-        public CityByDefault GetCityByDefaultById(int? id)
+        public async Task<CityByDefault> GetCityByDefaultByIdAsync(int? id)
         {
-            return _context.CityByDefaults.SingleOrDefault(c => c.Id == id);
+            return await _context.CityByDefaults.SingleOrDefaultAsync(c => c.Id == id);
         }
 
         public void RemoveCityByDefault(CityByDefault city)
