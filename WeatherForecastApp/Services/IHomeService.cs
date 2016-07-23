@@ -1,37 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WeatherForecastApp.Models;
 
 namespace WeatherForecastApp.Services
 {
     public interface IHomeService
     {
-        List<CityByDefault> CitiesByDefaultList();
+        Task<List<CityByDefault>> CitiesByDefaultListAsync();
 
-        List<Days> DaysList();
+        Task<List<Days>> DaysListAsync();
 
-        City GetCityById(int? id);
+        Task<string> GetCityNameByIdAsync(int id);
 
-        City GetCityByName(string name);
+        Task<int> GetDaysNumberByIdAsync(int id);
+
+        Task<Forecast> GetForecastAsync(Forecast forecast);
+
+        Task<City> GetCityByIdAsync(int? id);
 
         City AddCity(City city);
 
-        List GetListByDateAndCityId(int dt, int cityId);
-
         Temp AddTemp(Temp temp);
-
-        Temp GetTempById(int id);
 
         List AddList(List list);
 
-        List<List> GetListsWithTempsByCityid(int id);
+        Task<List> GetListByDateAndCityIdAsync(int dt, int cityId);
 
-        string GetCityNameById(int id);
+        Task<Temp> GetTempByIdAsync(int id);
 
-        int GetDaysNumberById(int id);
+        Task<Forecast> GetForecastRedirectAsync(Forecast forecast);
 
-        Forecast GetForecast(Forecast forecast);
+        Task<City> GetCityByNameAsync(string name);
 
-        Forecast GetForecastRedirect(Forecast forecast);
+        Task<List<List>> GetListsWithTempsByCityidAsync(int id);
 
         void Dispose();
     }
